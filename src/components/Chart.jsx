@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import './chart.css';
 
 const Chart = () => {
-  const data = [13, 21, 76, 33, 100, 55, 98, -13];
+  const data = [13, 21, 76, -33, 100, 55, 98, -13];
   const svgRef = useRef(null);
   const windowWidth = useRef(window.innerWidth);
 
@@ -16,8 +16,8 @@ const Chart = () => {
     const svg = d3
       .select(svgRef.current)
       .attr('width', w)
-      .attr('height', h * 2);
-    // .style('overflow', 'visible');
+      .attr('height', h * 2)
+      .style('overflow', 'visible');
 
     const xScale = d3
       .scaleLinear()
@@ -32,20 +32,8 @@ const Chart = () => {
       .y(yScale)
       .curve(d3.curveLinear);
 
-    // const xAxis = d3
-    //   .axisBottom(xScale)
-    //   .ticks(data.length)
-    //   .tickFormat((i) => i + 1);
-
-    // const yAxis = d3.axisLeft(yScale).ticks(maxTick / 100);
-
-    svg
-      .append('g')
-      // .call(xAxis)
-      .attr('transform', `translate(0, ${h})`);
-
+    svg.append('g').attr('transform', `translate(0, ${h})`);
     svg.append('g');
-    // .call(yAxis);
 
     svg
       .selectAll()
@@ -54,8 +42,6 @@ const Chart = () => {
       .attr('d', (d) => generateScaledLine(d))
       .attr('fill', 'none')
       .attr('stroke', 'black');
-
-    //---------------------
 
     var texts = svg.selectAll().data(data).enter().append('text');
 

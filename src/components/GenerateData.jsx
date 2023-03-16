@@ -5,7 +5,9 @@ function GenerateData() {
   return (
     <div className='generate-data'>
       <h1>Data</h1>
-      <form></form>
+      <form>
+        <input type='text' />
+      </form>
     </div>
   );
 }
