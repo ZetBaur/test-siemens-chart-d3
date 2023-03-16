@@ -16,8 +16,8 @@ const Chart = () => {
     const svg = d3
       .select(svgRef.current)
       .attr('width', w)
-      .attr('height', h)
-      .style('overflow', 'visible');
+      .attr('height', h * 2);
+    // .style('overflow', 'visible');
 
     const xScale = d3
       .scaleLinear()
@@ -41,10 +41,11 @@ const Chart = () => {
 
     svg
       .append('g')
-      .call(xAxis)
+      // .call(xAxis)
       .attr('transform', `translate(0, ${h + 3})`);
 
-    svg.append('g').call(yAxis);
+    svg.append('g');
+    // .call(yAxis);
 
     svg
       .selectAll()
