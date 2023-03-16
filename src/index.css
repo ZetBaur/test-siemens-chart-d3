@@ -17,3 +17,23 @@ body {
 svg {
   background: #fff;
 }
+
+.App {
+  display: flex;
+  column-gap: 10px;
+}
+
+/* .chart {
+  flex: 1;
+  border: 1px solid gray;
+} */
+
+.generate-data {
+  width: 300px;
+  border: 1px solid gray;
+  padding: 5px;
+}
+
+h1 {
+  font-size: 18px;
+}

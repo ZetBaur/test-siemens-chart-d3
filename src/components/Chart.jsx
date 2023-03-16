@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import './Chart.css';
 
-const App = () => {
+const Chart = () => {
   const [data, setData] = useState([55, 14, 76, 85, 100, 150, 700]);
   const svgRef = useRef(null);
 
@@ -10,7 +11,7 @@ const App = () => {
   console.log('date', date.getMilliseconds());
 
   useEffect(() => {
-    const w = 700;
+    const w = 500;
     const h = 400;
 
     const svg = d3.select(svgRef.current).attr('width', w).attr('height', h);
@@ -38,10 +39,10 @@ const App = () => {
   }, [data]);
 
   return (
-    <div className='App'>
+    <div className='chart'>
       <svg ref={svgRef}></svg>
     </div>
   );
 };
 
-export default App;
+export default Chart;
