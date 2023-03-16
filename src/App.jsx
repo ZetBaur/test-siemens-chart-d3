@@ -1,34 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useEffect, useRef, useState } from 'react';
+import * as d3 from 'd3';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [data, setData] = useState([55, 14, 76, 85, 100, 150, 700]);
+  const svgRef = useRef(null);
+
+  const date = new Date();
+
+  console.log('date', date.getMilliseconds());
+
+  useEffect(() => {
+    const w = 700;
+    const h = 400;
+
+    const svg = d3.select(svgRef.current).attr('width', w).attr('height', h);
+
+    const xScale = d3
+      .scaleLinear()
+      .domain([0, data.length - 1])
+      .range([0, w]);
+
+    const yScale = d3.scaleTime().domain([0, h]).range([h, 0]);
+
+    const generateScaledLine = d3
+      .line()
+      .x((d, i) => xScale(i))
+      .y(yScale)
+      .curve(d3.curveCardinal);
+
+    svg
+      .selectAll('.line')
+      .data([data])
+      .join('path')
+      .attr('d', (d) => generateScaledLine(d))
+      .attr('fill', 'none')
+      .attr('stroke', 'black');
+  }, [data]);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className='App'>
+      <svg ref={svgRef}></svg>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
