@@ -5,7 +5,7 @@ import './App.css';
 import { useState } from 'react';
 
 const App = () => {
-  const [data, setData] = useState([13, 21, 76, -33, 100, 55, 98, -13]);
+  const [data, setData] = useState([]);
 
   return (
     <div className='App'>

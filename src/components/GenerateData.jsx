@@ -1,13 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './generateData.css';
 
 function GenerateData({ data, setData }) {
+  const [value, setValue] = useState('');
   const inputRef = useRef(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    console.log(event);
+    setData([...data, parseInt(value * 100)]);
+    setValue('');
+    inputRef.current.focus();
   };
 
   return (
@@ -15,14 +17,19 @@ function GenerateData({ data, setData }) {
       <h1>Data</h1>
 
       <form onSubmit={handleSubmit}>
-        <input ref={inputRef} type='text' />
+        <input
+          ref={inputRef}
+          type='number'
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
       </form>
 
       <ul>
-        {data.map((el) => {
+        {data.map((el, idx) => {
           return (
-            <li key={el}>
-              <span>{el}</span>
+            <li key={idx}>
+              <span>{el / 100}</span>
               <button>Remove</button>
             </li>
           );
