@@ -3,16 +3,21 @@ import * as d3 from 'd3';
 import './chart.css';
 
 const Chart = () => {
-  const [data, setData] = useState([55, 14, 76, 85, 100, 150, 300]);
+  // const [data, setData] = useState([
+  //   55, 14, 76, 85, 100, 150, 300, 500, 200, 700, 400,
+  // ]);
+
+  const data = [55, 14, 76, 85, 100, 150, 300, 400, 300, 600];
   const svgRef = useRef(null);
   const windowWidth = useRef(window.innerWidth);
   const windowHeight = useRef(window.innerHeight);
 
-  console.log('wiin', windowWidth);
-
   useEffect(() => {
+    let maxTick = data.reduce((acc, cur) => (cur > acc ? cur : acc), 0);
+
+    console.log(maxTick);
     const w = windowWidth.current - 350;
-    const h = 400;
+    const h = maxTick;
 
     const svg = d3
       .select(svgRef.current)
@@ -38,7 +43,7 @@ const Chart = () => {
       .ticks(data.length)
       .tickFormat((i) => i + 1);
 
-    const yAxis = d3.axisLeft(yScale).ticks(5);
+    const yAxis = d3.axisLeft(yScale).ticks(maxTick / 100);
 
     svg.append('g').call(xAxis).attr('transform', `translate(0, ${h})`);
     svg.append('g').call(yAxis);
