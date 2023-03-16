@@ -32,17 +32,17 @@ const Chart = () => {
       .y(yScale)
       .curve(d3.curveLinear);
 
-    const xAxis = d3
-      .axisBottom(xScale)
-      .ticks(data.length)
-      .tickFormat((i) => i + 1);
+    // const xAxis = d3
+    //   .axisBottom(xScale)
+    //   .ticks(data.length)
+    //   .tickFormat((i) => i + 1);
 
-    const yAxis = d3.axisLeft(yScale).ticks(maxTick / 100);
+    // const yAxis = d3.axisLeft(yScale).ticks(maxTick / 100);
 
     svg
       .append('g')
       // .call(xAxis)
-      .attr('transform', `translate(0, ${h + 3})`);
+      .attr('transform', `translate(0, ${h})`);
 
     svg.append('g');
     // .call(yAxis);
