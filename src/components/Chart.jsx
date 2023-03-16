@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './chart.css';
 
-const Chart = () => {
-  const data = [13, 21, 76, -33, 100, 55, 98, -13];
+const Chart = ({ data }) => {
   const svgRef = useRef(null);
   const windowWidth = useRef(window.innerWidth);
 
