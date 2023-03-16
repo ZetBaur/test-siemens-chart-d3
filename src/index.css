@@ -2,6 +2,13 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,29 +18,9 @@
 body {
   min-width: 320px;
   min-height: 100vh;
-  background: lightgrey;
+  /* background: lightgrey; */
 }
 
 svg {
   background: #fff;
-}
-
-.App {
-  display: flex;
-  column-gap: 10px;
-}
-
-/* .chart {
-  flex: 1;
-  border: 1px solid gray;
-} */
-
-.generate-data {
-  width: 300px;
-  border: 1px solid gray;
-  padding: 5px;
-}
-
-h1 {
-  font-size: 18px;
 }

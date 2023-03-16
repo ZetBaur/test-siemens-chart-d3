@@ -1,4 +1,5 @@
 import React from 'react';
+import './generateData.css';
 
 function GenerateData() {
   return (
