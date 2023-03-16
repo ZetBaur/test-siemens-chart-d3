@@ -11,7 +11,7 @@ const Chart = () => {
   console.log('wiin', windowWidth);
 
   useEffect(() => {
-    const w = 700;
+    const w = windowWidth.current - 350;
     const h = 400;
 
     const svg = d3
@@ -31,7 +31,7 @@ const Chart = () => {
       .line()
       .x((d, i) => xScale(i))
       .y(yScale)
-      .curve(d3.curveCardinal);
+      .curve(d3.curveLinear);
 
     const xAxis = d3
       .axisBottom(xScale)
