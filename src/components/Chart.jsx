@@ -3,14 +3,9 @@ import * as d3 from 'd3';
 import './chart.css';
 
 const Chart = () => {
-  // const [data, setData] = useState([
-  //   55, 14, 76, 85, 100, 150, 300, 500, 200, 700, 400,
-  // ]);
-
-  const data = [55, 14, 76, 85, 100, 150, 300, 400, 300, 600];
+  const data = [55, 14, 76, 85, 100, 150, 300];
   const svgRef = useRef(null);
   const windowWidth = useRef(window.innerWidth);
-  const windowHeight = useRef(window.innerHeight);
 
   useEffect(() => {
     let maxTick = data.reduce((acc, cur) => (cur > acc ? cur : acc), 0);
@@ -48,15 +43,27 @@ const Chart = () => {
       .append('g')
       .call(xAxis)
       .attr('transform', `translate(0, ${h + 3})`);
+
     svg.append('g').call(yAxis);
 
     svg
-      .selectAll('.line')
+      .selectAll()
       .data([data])
       .join('path')
       .attr('d', (d) => generateScaledLine(d))
       .attr('fill', 'none')
       .attr('stroke', 'black');
+
+    //---------------------
+
+    var texts = svg.selectAll().data(data).enter().append('text');
+
+    texts
+      .attr('x', (d) => d + 16)
+      .attr('y', (d, i) => 30 + i * 40)
+      .text((d) => d);
+
+    //---------------------
   }, [data]);
 
   return (
