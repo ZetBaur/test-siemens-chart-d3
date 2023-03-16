@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import './chart.css';
 
 const Chart = () => {
-  const data = [55, 14, 76, 85, 100, 150, 300];
+  const data = [13, 21, 76, 33, 100, 55, 98, -13];
   const svgRef = useRef(null);
   const windowWidth = useRef(window.innerWidth);
 
@@ -59,8 +59,8 @@ const Chart = () => {
     var texts = svg.selectAll().data(data).enter().append('text');
 
     texts
-      .attr('x', (d) => d + 16)
-      .attr('y', (d, i) => 30 + i * 40)
+      .attr('x', (d, i) => xScale(i))
+      .attr('y', yScale)
       .text((d) => d);
 
     //---------------------
