@@ -9,7 +9,7 @@ const App = () => {
 
   return (
     <div className='App'>
-      {/* <LineChart /> */}
+      {/* <LineChart data={data} setData={setData} /> */}
       <Chart data={data} setData={setData} />
       <GenerateData data={data} setData={setData} />
     </div>

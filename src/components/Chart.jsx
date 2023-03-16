@@ -10,7 +10,7 @@ const Chart = ({ data }) => {
     let maxTick = data.reduce((acc, cur) => (cur > acc ? cur : acc), 0);
 
     const w = windowWidth.current - 350;
-    const h = maxTick;
+    const h = 150;
 
     const svg = d3
       .select(svgRef.current)
@@ -22,6 +22,15 @@ const Chart = ({ data }) => {
       .scaleLinear()
       .domain([0, data.length - 1])
       .range([0, w]);
+
+    //----------------
+
+    // const xScale = d3
+    //   .scalePoint()
+    //   .domain(chartdata.map((d) => d.name))
+    //   .range([0 + padding, width - padding]);
+
+    //-------------
 
     const yScale = d3.scaleLinear().domain([0, h]).range([h, 0]);
 

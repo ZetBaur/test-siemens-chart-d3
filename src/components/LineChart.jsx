@@ -1,34 +1,122 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
-
 import './chart.css';
 
 function LineChart() {
-  //   const data = [55, 77, 98, 63, 35, 27, 54];
+  //  1] Setup Initial data and settings ------------//
 
-  const svgRef = useRef(null);
+  const initialData = [
+    {
+      name: 'Car',
+      value: 10,
+    },
+    {
+      name: 'Food',
+      value: 3,
+    },
+    {
+      name: 'Telephone',
+      value: 9,
+    },
+    {
+      name: 'Electricity',
+      value: 7,
+    },
+    {
+      name: 'Cinema',
+      value: 7,
+    },
+  ];
 
-  const windowWidth = useRef(window.innerWidth);
-  const windowHeight = useRef(window.innerHeight);
+  const width = 500;
+  const height = 150;
+  const padding = 20;
+  const maxValue = 20; // Maximum data value
 
-  const width = windowWidth.current - 350;
-  const height = 400;
+  const [chartdata, setChartdata] = useState(initialData);
+
+  const svgRef = useRef();
+
+  //  2] Setup random data generator and SVG canvas -//
+
+  const newData = () =>
+    chartdata.map(function (d) {
+      d.value = Math.floor(Math.random() * (maxValue + 1));
+      console.log('d', d);
+      return d;
+    });
 
   useEffect(() => {
-    const svg = d3.select(svgRef.current);
+    //  3] Setup functions for Scales ------------------//
+    //xscales
+    const xScale = d3
+      .scalePoint()
+      .domain(chartdata.map((d) => d.name))
+      .range([0 + padding, width - padding]);
 
-    svg
-      .append('line')
-      .attr('x1', 0)
-      .attr('x2', 500)
-      .attr('y1', 0)
-      .attr('y2', 50)
-      .attr('stroke', 'black');
-  }, []);
+    console.log('Start - End', xScale('Car'), xScale('Cinema'));
+
+    //Yscales
+    const yScale = d3
+      .scaleLinear()
+      .domain([
+        0,
+        d3.max(chartdata, function (d) {
+          return d.value;
+        }),
+      ])
+      .range([height - padding, 0 + padding]);
+
+    console.log('Start - End', yScale(0), yScale(10));
+
+    //  4] Setup functions to draw Lines ---------------//
+
+    const line = d3
+      .line()
+      .x((d) => xScale(d.name))
+      .y((d) => yScale(d.value))
+      .curve(d3.curveMonotoneX);
+
+    console.log('chart draw commands', line(chartdata));
+
+    //  5] Draw line        ---------------------------//
+    d3.select(svgRef.current)
+      .select('path')
+      .attr('d', (value) => line(chartdata))
+      .attr('fill', 'none')
+      .attr('stroke', 'white');
+
+    //  6] Setup functions to draw X and Y Axes --------//
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+
+    //  7] Draw x and y Axes   -------------------------//
+    d3.select('#xaxis').remove();
+    d3.select(svgRef.current)
+      .append('g')
+      .attr('transform', `translate(0,${height - padding})`)
+      .attr('id', 'xaxis')
+      .call(xAxis);
+
+    d3.select('#yaxis').remove();
+    d3.select(svgRef.current)
+      .append('g')
+      .attr('transform', `translate(${padding},0)`)
+      .attr('id', 'yaxis')
+      .call(yAxis);
+  }, [chartdata]);
 
   return (
     <div className='chart'>
-      <svg ref={svgRef} width={width} height={height}></svg>
+      <svg id='chart' ref={svgRef} viewBox='0 0 500 150'>
+        <path d='' fill='none' stroke='white' strokeWidth='5' />
+      </svg>
+
+      <p>
+        <button type='button' onClick={() => setChartdata(newData())}>
+          Click to refresh expenses data
+        </button>
+      </p>
     </div>
   );
 }
