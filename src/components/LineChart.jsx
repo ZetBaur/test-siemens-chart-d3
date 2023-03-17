@@ -1,31 +1,31 @@
 import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
-import './chart.css';
+// import './chart.css';
 
-function LineChart() {
+function LineChart({ data }) {
   //  1] Setup Initial data and settings ------------//
 
   const initialData = [
     {
-      name: 'Car',
+      name: new Date().getMilliseconds(),
       value: 10,
     },
-    {
-      name: 'Food',
-      value: 3,
-    },
-    {
-      name: 'Telephone',
-      value: 9,
-    },
-    {
-      name: 'Electricity',
-      value: 7,
-    },
-    {
-      name: 'Cinema',
-      value: 7,
-    },
+    // {
+    //   name: new Date(),
+    //   value: 3,
+    // },
+    // {
+    //   name: 'Telephone',
+    //   value: 9,
+    // },
+    // {
+    //   name: 'Electricity',
+    //   value: 7,
+    // },
+    // {
+    //   name: 'Cinema',
+    //   value: 7,
+    // },
   ];
 
   const width = 500;
@@ -41,8 +41,9 @@ function LineChart() {
 
   const newData = () =>
     chartdata.map(function (d) {
-      d.value = Math.floor(Math.random() * (maxValue + 1));
-      console.log('d', d);
+      // d.value = Math.floor(Math.random() * (maxValue + 1));
+
+      d.value = new Date();
       return d;
     });
 
@@ -84,7 +85,7 @@ function LineChart() {
       .select('path')
       .attr('d', (value) => line(chartdata))
       .attr('fill', 'none')
-      .attr('stroke', 'white');
+      .attr('stroke', 'black');
 
     //  6] Setup functions to draw X and Y Axes --------//
     const xAxis = d3.axisBottom(xScale);
@@ -108,12 +109,23 @@ function LineChart() {
 
   return (
     <div className='chart'>
-      <svg id='chart' ref={svgRef} viewBox='0 0 500 150'>
+      <svg ref={svgRef}>
         <path d='' fill='none' stroke='white' strokeWidth='5' />
       </svg>
 
       <p>
-        <button type='button' onClick={() => setChartdata(newData())}>
+        <button
+          type='button'
+          onClick={() =>
+            setChartdata([
+              ...chartdata,
+              {
+                name: new Date().getMilliseconds(),
+                value: chartdata.length + 10,
+              },
+            ])
+          }
+        >
           Click to refresh expenses data
         </button>
       </p>

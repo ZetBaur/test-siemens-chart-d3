@@ -1,6 +1,7 @@
 import Chart from './components/Chart';
 import LineChart from './components/LineChart';
 import GenerateData from './components/GenerateData';
+import Dthree from './components/Dthree';
 import './App.css';
 import { useState } from 'react';
 
@@ -9,8 +10,12 @@ const App = () => {
 
   return (
     <div className='App'>
-      {/* <LineChart data={data} setData={setData} /> */}
-      <Chart data={data} setData={setData} />
+      {/* <Dthree data={data} setData={setData} /> */}
+
+      <LineChart data={data} setData={setData} />
+
+      {/* <Chart data={data} setData={setData} /> */}
+
       <GenerateData data={data} setData={setData} />
     </div>
   );
