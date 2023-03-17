@@ -1,13 +1,19 @@
 import React, { useRef, useState } from 'react';
 import './generateData.css';
 
-function GenerateData({ data, setData }) {
+function GenerateData({ data, handleSubmit }) {
   const [value, setValue] = useState('');
   const inputRef = useRef(null);
 
-  const handleSubmit = (event) => {
+  const submit = (event) => {
     event.preventDefault();
-    setData([...data, parseInt(value * 100)]);
+
+    const item = {
+      name: new Date().getMilliseconds(),
+      value: value * 10,
+    };
+
+    handleSubmit(item);
     setValue('');
     inputRef.current.focus();
   };
@@ -16,7 +22,7 @@ function GenerateData({ data, setData }) {
     <div className='generate-data'>
       <h1>Data</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={submit}>
         <input
           ref={inputRef}
           type='number'
@@ -29,7 +35,9 @@ function GenerateData({ data, setData }) {
         {data.map((el, idx) => {
           return (
             <li key={idx}>
-              <span>{el / 100}</span>
+              <span>{el.name}</span>
+              <span>{el.value}</span>
+
               <button>Remove</button>
             </li>
           );

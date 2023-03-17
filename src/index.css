@@ -17,6 +17,46 @@ body {
   background: lightgrey;
 }
 
+.App {
+  display: flex;
+  column-gap: 10px;
+  max-width: 1200px;
+  padding: 10px;
+  border: 1px solid gray;
+  background: #fff;
+}
+
 svg {
   background: #fff;
+}
+
+.chart {
+  flex: 1;
+  border: 1px solid gray;
+  padding: 21px 0;
+  overflow: hidden;
+}
+
+.generate-data {
+  width: 250px;
+  border: 1px solid gray;
+  padding: 5px;
+}
+
+h1 {
+  font-size: 18px;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 21px;
+  padding: 0 5px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid gray;
+  padding: 0 5px;
+  margin-bottom: 5px;
 }

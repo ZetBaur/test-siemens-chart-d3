@@ -35,20 +35,22 @@ const Chart = ({ data }) => {
     svg.append('g').attr('transform', `translate(0, ${h})`);
     svg.append('g');
 
+    console.log(data);
+
     svg
       .selectAll()
-      .data([data])
+      .data(data)
       .join('path')
-      .attr('d', (d) => generateScaledLine(d))
+      .attr('d', (d) => generateScaledLine(d.value))
       .attr('fill', 'none')
       .attr('stroke', 'black');
 
     var texts = svg.selectAll().data(data).enter().append('text');
 
     texts
-      .attr('x', (d, i) => xScale(i))
+      .attr('x', (d, i) => xScale(parseInt(d.value)))
       .attr('y', yScale)
-      .text((d) => d);
+      .text((d) => parseInt(d.value));
 
     //---------------------
   }, [data]);

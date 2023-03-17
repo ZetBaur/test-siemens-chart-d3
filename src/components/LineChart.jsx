@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
-// import './chart.css';
+import './chart.css';
 
 function LineChart({ data }) {
   //  1] Setup Initial data and settings ------------//
@@ -10,32 +10,38 @@ function LineChart({ data }) {
       name: new Date().getMilliseconds(),
       value: 10,
     },
-    // {
-    //   name: new Date(),
-    //   value: 3,
-    // },
-    // {
-    //   name: 'Telephone',
-    //   value: 9,
-    // },
-    // {
-    //   name: 'Electricity',
-    //   value: 7,
-    // },
-    // {
-    //   name: 'Cinema',
-    //   value: 7,
-    // },
+    {
+      name: 555,
+      value: 3,
+    },
   ];
+
+  const [chartdata, setChartdata] = useState(initialData);
+
+  const svgRef = useRef();
+
+  const [value, setValue] = useState('');
+
+  const inputRef = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    setChartdata([
+      ...chartdata,
+      {
+        name: new Date().getMilliseconds(),
+        value: value,
+      },
+    ]);
+    setValue('');
+    inputRef.current.focus();
+  };
 
   const width = 500;
   const height = 150;
   const padding = 20;
   const maxValue = 20; // Maximum data value
-
-  const [chartdata, setChartdata] = useState(initialData);
-
-  const svgRef = useRef();
 
   //  2] Setup random data generator and SVG canvas -//
 
@@ -76,7 +82,7 @@ function LineChart({ data }) {
       .line()
       .x((d) => xScale(d.name))
       .y((d) => yScale(d.value))
-      .curve(d3.curveMonotoneX);
+      .curve(d3.curveLinear);
 
     console.log('chart draw commands', line(chartdata));
 
@@ -92,14 +98,14 @@ function LineChart({ data }) {
     const yAxis = d3.axisLeft(yScale);
 
     //  7] Draw x and y Axes   -------------------------//
-    d3.select('#xaxis').remove();
+    // d3.select('#xaxis').remove();
     d3.select(svgRef.current)
       .append('g')
       .attr('transform', `translate(0,${height - padding})`)
       .attr('id', 'xaxis')
       .call(xAxis);
 
-    d3.select('#yaxis').remove();
+    // d3.select('#yaxis').remove();
     d3.select(svgRef.current)
       .append('g')
       .attr('transform', `translate(${padding},0)`)
@@ -108,27 +114,55 @@ function LineChart({ data }) {
   }, [chartdata]);
 
   return (
-    <div className='chart'>
-      <svg ref={svgRef}>
-        <path d='' fill='none' stroke='white' strokeWidth='5' />
-      </svg>
+    <div className='App'>
+      <div className='chart'>
+        <svg ref={svgRef}>
+          <path d='' fill='none' stroke='white' strokeWidth='5' />
+        </svg>
 
-      <p>
-        <button
-          type='button'
-          onClick={() =>
-            setChartdata([
-              ...chartdata,
-              {
-                name: new Date().getMilliseconds(),
-                value: chartdata.length + 10,
-              },
-            ])
-          }
-        >
-          Click to refresh expenses data
-        </button>
-      </p>
+        <p>
+          <button
+            type='button'
+            onClick={() =>
+              setChartdata([
+                ...chartdata,
+                {
+                  name: new Date().getMilliseconds(),
+                  value: chartdata.length + 10,
+                },
+              ])
+            }
+          >
+            Click to refresh expenses data
+          </button>
+        </p>
+      </div>
+
+      <div className='generate-data'>
+        <h1>Data</h1>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            ref={inputRef}
+            type='number'
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        </form>
+
+        <ul>
+          {chartdata.map((el, idx) => {
+            return (
+              <li key={idx}>
+                <span>{el.name}</span>
+                <span>{el.value}</span>
+
+                <button>Remove</button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
