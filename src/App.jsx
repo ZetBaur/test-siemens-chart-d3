@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-import './App.css';
 
 const App = () => {
   const initialData = [
@@ -8,10 +7,6 @@ const App = () => {
       date: new Date().getMilliseconds(),
       value: 0,
     },
-    // {
-    //   date: 555,
-    //   value: 3,
-    // },
   ];
 
   const [chartdata, setChartdata] = useState(initialData);
@@ -22,12 +17,10 @@ const App = () => {
 
   const submit = (event) => {
     event.preventDefault();
-
     const item = {
       date: new Date().getMilliseconds(),
       value: +value,
     };
-
     if (value) setChartdata([...chartdata, item]);
     setValue('');
     inputRef.current.focus();
@@ -87,8 +80,6 @@ const App = () => {
       .attr('x', (d, i) => xScale(parseInt(d.date)))
       .attr('y', (d) => yScale(d.value))
       .text((d) => parseInt(d.value));
-
-    //---------------------
   }, [chartdata]);
 
   return (
