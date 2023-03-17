@@ -13,7 +13,19 @@ const App = () => {
   const [value, setValue] = useState('');
   const inputRef = useRef(null);
   const svgRef = useRef(null);
-  const windowWidth = useRef(window.innerWidth);
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   const submit = (event) => {
     event.preventDefault();
@@ -33,7 +45,7 @@ const App = () => {
   useEffect(() => {
     inputRef.current.focus();
 
-    const w = windowWidth.current - 350;
+    const w = windowSize.innerWidth - 350;
     const h = 150;
 
     const svg = d3
@@ -80,7 +92,7 @@ const App = () => {
       .attr('x', (d, i) => xScale(parseInt(d.date)))
       .attr('y', (d) => yScale(d.value))
       .text((d) => parseInt(d.value));
-  }, [chartdata]);
+  }, [chartdata, windowSize.innerWidth]);
 
   return (
     <div className='App'>
@@ -112,5 +124,10 @@ const App = () => {
     </div>
   );
 };
+
+function getWindowSize() {
+  const { innerWidth, innerHeight } = window;
+  return { innerWidth, innerHeight };
+}
 
 export default App;
